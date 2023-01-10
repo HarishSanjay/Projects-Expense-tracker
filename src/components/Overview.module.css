@@ -1,0 +1,20 @@
+.selectedMonth
+{
+    color: crimson;
+    font-size: inherit;
+}
+
+.overview
+{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.overview select
+{
+    font: inherit;
+    margin-right: 0.5rem;
+    padding: 0.1rem;
+}
