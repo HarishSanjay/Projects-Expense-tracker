@@ -43,24 +43,25 @@ const LoginForm = () => {
           password: passwordInput.value,
         })
         .then((response) => {
-          if (response.status === 200) {
-            uiCtx.updateNotification({
-              status: "SUCCESS",
-              message: "User validation complete!",
-            });
+          const status = response.status;
+          if (status === 200) {
             console.log(response.data);
             ctx.login(
               response.data.idToken,
               Number(response.data.expirationTime),
               { userId: response.data.userId, mailId: response.data.mailId }
             );
+            uiCtx.updateNotification({
+              status: "SUCCESS",
+              message: "Welcome User",
+            });
             history.replace("/home");
           }
         })
         .catch((err) => {
           uiCtx.updateNotification({
             status: "ERROR",
-            message: "Invalid Credentials!",
+            message: "Invalid credentials",
           });
         });
     }

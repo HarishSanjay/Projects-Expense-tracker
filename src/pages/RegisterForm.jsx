@@ -2,6 +2,9 @@ import styles from "./Form.module.css";
 import Card from "../ui/Card";
 import useInput from "../hooks/use-input";
 import axios from "axios";
+import { useContext } from "react";
+import { uiContext } from "../context-store/ui-store";
+import { useHistory } from "react-router-dom";
 
 const server = axios.create({ baseURL: "http://localhost:8080/" });
 const validateEmail = (email) => {
@@ -24,10 +27,11 @@ const RegisterForm = () => {
   const emailInput = useInput(validateEmail, "");
   const passwordInput = useInput(validatePassword, "");
   const confirmPassInput = useInput(validatePassword, "");
-
+  const history = useHistory();
+  const uiCtx = useContext(uiContext);
   let passwordMatch = true;
   if (
-    confirmPassInput.isFocused &&
+    (confirmPassInput.isFocused && confirmPassInput.value === "") ||
     confirmPassInput.value !== passwordInput.value
   ) {
     passwordMatch = false;
@@ -42,9 +46,13 @@ const RegisterForm = () => {
   const registerFormHandler = (event) => {
     event.preventDefault();
     if (formIsValid) {
+      uiCtx.updateNotification({
+        status: "LOADING",
+        message: "Saving User..Please wait!",
+      });
       server
         .post(
-          "/auth/register",
+          "/register",
           {
             emailAddress: emailInput.value,
             password: passwordInput.value,
@@ -59,8 +67,18 @@ const RegisterForm = () => {
         )
         .then((response) => {
           if (response.status === 202) {
-            console.log("Data Accepted");
+            uiCtx.updateNotification({
+              status: "SUCCESS",
+              message: "User Registered Successfully! Please login to continue",
+            });
+            history.push("/login")
           }
+        })
+        .catch((err) => {
+          uiCtx.updateNotification({
+            status: "ERROR",
+            message: "Something went wrong! Please try again",
+          });
         });
     }
   };

@@ -8,8 +8,8 @@ import RegisterForm from "./pages/RegisterForm";
 import Transactions from "./pages/Transactions";
 import Notification from "./components/Notification";
 import { uiContext } from "./context-store/ui-store";
-import CashHistory from "./pages/TransactionHistory";
 import TransactionHistory from "./pages/TransactionHistory";
+import Profile from "./pages/Profile";
 
 function App() {
   const ctx = useContext(authContext);
@@ -26,11 +26,23 @@ function App() {
         </Route>
         <Route path="/login">{!ctx.isLoggedIn && <LoginForm />}</Route>
         <Route path="/register">{!ctx.isLoggedIn && <RegisterForm />}</Route>
-        <Route path="/home">
-          <Transactions />
-        </Route>
-        <Route path="/transactions">
-          <TransactionHistory />
+        {ctx.isLoggedIn && (
+          <Route path="/home">
+            <Transactions />
+          </Route>
+        )}
+        {ctx.isLoggedIn && (
+          <Route path="/transactions">
+            <TransactionHistory />
+          </Route>
+        )}
+        {ctx.isLoggedIn && (
+          <Route path="/profile">
+            <Profile />
+          </Route>
+        )}
+        <Route path="*" exact>
+          {!ctx.isLoggedIn && <Redirect to="/login"/>}
         </Route>
       </Switch>
     </>
