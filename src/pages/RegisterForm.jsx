@@ -1,4 +1,4 @@
-import styles from "./Login.module.css";
+import styles from "./Form.module.css";
 import Card from "../ui/Card";
 import useInput from "../hooks/use-input";
 import axios from "axios";
@@ -19,11 +19,11 @@ const validatePassword = (password) => {
 };
 
 const RegisterForm = () => {
-  const firstNameInput = useInput(validateName);
-  const lastNameInput = useInput(validateName);
-  const emailInput = useInput(validateEmail);
-  const passwordInput = useInput(validatePassword);
-  const confirmPassInput = useInput(validatePassword);
+  const firstNameInput = useInput(validateName, "");
+  const lastNameInput = useInput(validateName, "");
+  const emailInput = useInput(validateEmail, "");
+  const passwordInput = useInput(validatePassword, "");
+  const confirmPassInput = useInput(validatePassword, "");
 
   let passwordMatch = true;
   if (
@@ -44,7 +44,7 @@ const RegisterForm = () => {
     if (formIsValid) {
       server
         .post(
-          "/register",
+          "/auth/register",
           {
             emailAddress: emailInput.value,
             password: passwordInput.value,

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
-const useInput = (validate) => {
-  const [input, setInput] = useState("");
+const useInput = (validate, initValue) => {
+  const [input, setInput] = useState(initValue);
   const [isFocused, setIsFocused] = useState(false);
   const isValid = validate(input);
   const hasError = !isValid && isFocused;
@@ -15,9 +15,9 @@ const useInput = (validate) => {
   }, []);
 
   const resetInput = useCallback(() => {
-    setInput("");
+    setInput(initValue);
     setIsFocused(false);
-  }, []);
+  }, [initValue]);
 
   return {
     value: input,

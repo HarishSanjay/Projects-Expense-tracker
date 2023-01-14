@@ -4,3 +4,35 @@
     align-items: center;
     justify-content: space-around;
 }
+
+.expense,
+.income,
+.savings
+{
+    padding: 2rem;
+    border-radius: 1rem;
+    font-size: 17px;
+}
+
+.expense
+{
+    background-color: rgb(243, 188, 188);
+    color: rgb(137, 2, 2);
+}
+
+
+.savings
+{
+    background-color: lightblue;
+    color: rgb(1, 1, 130);
+}
+
+.income
+{
+    background-color: rgb(167, 231, 167);
+    color: rgb(1, 50, 1);
+}
+
+.cost{
+    font-weight: bold;
+}

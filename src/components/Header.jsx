@@ -10,16 +10,38 @@ const Header = () => {
 
   const logoutHandler = () => {
     ctx.logout();
-    history.replace('/login');
-  }
-  
+    history.replace("/login");
+  };
+
   return (
     <div className={styles.header}>
       <h1 className={styles.title}>Expense Tracker</h1>
       <nav className={styles.nav}>
-        {!isLoggedIn && <NavLink activeClassName={styles.active} to="/login">Sign In</NavLink>}
-        {!isLoggedIn && <NavLink activeClassName={styles.active} to="/register">Sign Up</NavLink>}
-        {isLoggedIn && <NavLink activeClassName={styles.active} to="/profile">Profile</NavLink>}
+        {!isLoggedIn && (
+          <NavLink activeClassName={styles.active} to="/login">
+            Sign In
+          </NavLink>
+        )}
+        {!isLoggedIn && (
+          <NavLink activeClassName={styles.active} to="/register">
+            Sign Up
+          </NavLink>
+        )}
+        {isLoggedIn && (
+          <NavLink activeClassName={styles.active} to="/home">
+            Home
+          </NavLink>
+        )}
+        {isLoggedIn && (
+          <NavLink activeClassName={styles.active} to="/transactions">
+            Transactions
+          </NavLink>
+        )}
+        {isLoggedIn && (
+          <NavLink activeClassName={styles.active} to="/profile">
+            Profile
+          </NavLink>
+        )}
         {isLoggedIn && (
           <button className={styles.logout} onClick={logoutHandler}>
             Logout

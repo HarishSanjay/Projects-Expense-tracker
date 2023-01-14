@@ -1,33 +1,36 @@
 import { useContext } from "react";
-import {  Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import authContext from "./context-store/auth-store";
-import Home from "./pages/Home";
 import LoginForm from "./pages/LoginForm";
 import RegisterForm from "./pages/RegisterForm";
-import Tracker from "./pages/Tracker";
-
+import Transactions from "./pages/Transactions";
+import Notification from "./components/Notification";
+import { uiContext } from "./context-store/ui-store";
+import CashHistory from "./pages/TransactionHistory";
+import TransactionHistory from "./pages/TransactionHistory";
 
 function App() {
   const ctx = useContext(authContext);
+  const uiCtx = useContext(uiContext);
+  const notification = uiCtx.notification;
   return (
     <>
       <Header />
-      <Tracker />
+      {notification && <Notification notification={notification} />}
       <Switch>
-        {/* <Route path="/" exact>
+        <Route path="/" exact>
           {!ctx.isLoggedIn && <Redirect to="/login" />}
           {ctx.isLoggedIn && <Redirect to="/home" />}
-        </Route> */}
-        <Route path="/login">
-          {!ctx.isLoggedIn && <LoginForm />}
         </Route>
-        <Route path="/register">
-        {!ctx.isLoggedIn && <RegisterForm />}
-        </Route>
+        <Route path="/login">{!ctx.isLoggedIn && <LoginForm />}</Route>
+        <Route path="/register">{!ctx.isLoggedIn && <RegisterForm />}</Route>
         <Route path="/home">
-        {ctx.isLoggedIn && <Home />}
+          <Transactions />
+        </Route>
+        <Route path="/transactions">
+          <TransactionHistory />
         </Route>
       </Switch>
     </>

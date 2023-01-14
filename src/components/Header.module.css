@@ -1,6 +1,6 @@
 .header
 {
-    background-color: #04AA6D;
+    background-color: #000080;
     padding: 0 2rem 0  1rem;
     display: flex;
     align-items: center;
@@ -26,10 +26,8 @@
     margin: 0 1rem;
 }
 
-.nav a.active,
-.nav a:hover,
-.nav .active
-{
-    color: black;
-}
 
+.nav a.active{
+    border-bottom: 2px solid white;
+    padding: 0.1rem;
+}

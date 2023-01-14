@@ -1,12 +1,13 @@
 import Card from "../ui/Card";
-import styles from "./Login.module.css";
+import styles from "./Form.module.css";
 import useInput from "../hooks/use-input";
 import axios from "axios";
 import { useContext } from "react";
 import authContext from "../context-store/auth-store";
 import { useHistory } from "react-router-dom";
+import { uiContext } from "../context-store/ui-store";
 
-const server = axios.create({ baseURL: "http://localhost:8080/" });
+const server = axios.create({ baseURL: "http://localhost:8080" });
 const validateEmail = (email) => {
   var regexp =
     /^(([^<>()\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -20,8 +21,9 @@ const validatePassword = (password) => {
 //Component
 const LoginForm = () => {
   const ctx = useContext(authContext);
-  const emailInput = useInput(validateEmail);
-  const passwordInput = useInput(validatePassword);
+  const uiCtx = useContext(uiContext);
+  const emailInput = useInput(validateEmail, "");
+  const passwordInput = useInput(validatePassword, "");
   const history = useHistory();
   let formIsValid = false;
   if (emailInput.isValid && passwordInput.isValid) {
@@ -31,18 +33,36 @@ const LoginForm = () => {
   const loginFormHandler = (event) => {
     event.preventDefault();
     if (formIsValid) {
-      server.post("/login", {
-        emailAddress: emailInput.value,
-        password: passwordInput.value,
-      }).then(response => {
-        if(response.status===200)
-        {
-          console.log(response.data);
-          ctx.login(response.data.idToken, Number(response.data.expirationTime));
-          history.replace('/home');
-        }
+      uiCtx.updateNotification({
+        status: "LOADING",
+        message: "Validating Credentials..Please wait!",
       });
-    
+      server
+        .post("/auth/login", {
+          emailAddress: emailInput.value,
+          password: passwordInput.value,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            uiCtx.updateNotification({
+              status: "SUCCESS",
+              message: "User validation complete!",
+            });
+            console.log(response.data);
+            ctx.login(
+              response.data.idToken,
+              Number(response.data.expirationTime),
+              { userId: response.data.userId, mailId: response.data.mailId }
+            );
+            history.replace("/home");
+          }
+        })
+        .catch((err) => {
+          uiCtx.updateNotification({
+            status: "ERROR",
+            message: "Invalid Credentials!",
+          });
+        });
     }
   };
 
