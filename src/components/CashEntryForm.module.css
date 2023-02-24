@@ -1,67 +1,44 @@
-.cashForm
-{
-    width: 70%;
-    margin: 1rem auto;
-    padding: 1rem;
+.cashForm {
+  width: 30%;
+  margin: 1rem;
 }
 
-.control {
-  margin-bottom: 0.5rem;
-}
-
-.control input,
-.control label {
-  display: block;
-}
-
-.control label {
-  margin-bottom: 0.5rem;
-}
-
-.control input {
+.control select {
   font: inherit;
-  padding: 0.3rem 0.2rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 21rem;
-  max-width: 100%;
+  width: 20%;
+  text-align: center;
+  padding: 0.2rem;
 }
 
-.control input:focus {
-  outline: none;
-  border-color: #04aa6d;
-  background-color: #d4fde9;
+.type {
+  margin: 0.8rem 0;
 }
 
-.control select
-{
-    font:inherit;
-    width: 20%;
-    text-align: center;
-    padding: 0.2rem;
+input[type="radio"] {
+  accent-color: green;
+  cursor: pointer;
 }
 
-.type
-{
-    margin:0.8rem 0;
+.spend input:focus {
+  border-color: lightcoral !important;
+  background-color: rgb(255, 232, 235) !important;
 }
 
-input[type="radio"]
-{
-    accent-color: green;
-    cursor: pointer;
+.spendButton {
+  background-color: red !important;
+  border-color: lightcoral !important;
 }
 
-.spend input:focus
-{
-    outline: none;
-    border-color: lightcoral;
-    background-color: rgb(255, 232, 235);
-
+.spendButton:hover {
+  background-color: rgb(255, 112, 133) !important;
 }
 
-.spend button
-{
-    background-color: rgb(255, 112, 133);
-    border-color: lightcoral;
+.cancelButton {
+  background-color: orange !important;
+  margin-left: 1rem !important;
+}
+
+.cancelButton:hover {
+  background-color: orangered !important;
+  color: white !important;
 }

@@ -9,7 +9,6 @@ import Transactions from "./pages/Transactions";
 import Notification from "./components/Notification";
 import { uiContext } from "./context-store/ui-store";
 import TransactionHistory from "./pages/TransactionHistory";
-import Profile from "./pages/Profile";
 
 function App() {
   const ctx = useContext(authContext);
@@ -36,13 +35,8 @@ function App() {
             <TransactionHistory />
           </Route>
         )}
-        {ctx.isLoggedIn && (
-          <Route path="/profile">
-            <Profile />
-          </Route>
-        )}
         <Route path="*" exact>
-          {!ctx.isLoggedIn && <Redirect to="/login"/>}
+          {!ctx.isLoggedIn && <Redirect to="/login" />}
         </Route>
       </Switch>
     </>

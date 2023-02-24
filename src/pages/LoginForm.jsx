@@ -1,13 +1,12 @@
 import Card from "../ui/Card";
-import styles from "./Form.module.css";
 import useInput from "../hooks/use-input";
-import axios from "axios";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import authContext from "../context-store/auth-store";
 import { useHistory } from "react-router-dom";
-import { uiContext } from "../context-store/ui-store";
+import useHttp from "../hooks/useHttp";
+import Input from "../ui/Input";
+import Button from "../ui/Button";
 
-const server = axios.create({ baseURL: "http://localhost:8080" });
 const validateEmail = (email) => {
   var regexp =
     /^(([^<>()\\.,;:\s@"]+(\.[^<>()\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -21,7 +20,7 @@ const validatePassword = (password) => {
 //Component
 const LoginForm = () => {
   const ctx = useContext(authContext);
-  const uiCtx = useContext(uiContext);
+  const http = useHttp();
   const emailInput = useInput(validateEmail, "");
   const passwordInput = useInput(validatePassword, "");
   const history = useHistory();
@@ -30,88 +29,66 @@ const LoginForm = () => {
     formIsValid = true;
   }
 
+  const saveLoginDetails = useCallback(
+    (data) => {
+      ctx.login(data.idToken, Number(data.expirationTime), {
+        userId: data.userId,
+        mailId: data.mailId,
+        firstName: data.firstName,
+      });
+      history.replace("/home");
+    },
+    [ctx, history]
+  );
+
   const loginFormHandler = (event) => {
     event.preventDefault();
     if (formIsValid) {
-      uiCtx.updateNotification({
-        status: "LOADING",
-        message: "Validating Credentials..Please wait!",
-      });
-      server
-        .post("/auth/login", {
-          emailAddress: emailInput.value,
-          password: passwordInput.value,
-        })
-        .then((response) => {
-          const status = response.status;
-          if (status === 200) {
-            console.log(response.data);
-            ctx.login(
-              response.data.idToken,
-              Number(response.data.expirationTime),
-              { userId: response.data.userId, mailId: response.data.mailId }
-            );
-            uiCtx.updateNotification({
-              status: "SUCCESS",
-              message: "Welcome User",
-            });
-            history.replace("/home");
-          }
-        })
-        .catch((err) => {
-          uiCtx.updateNotification({
-            status: "ERROR",
-            message: "Invalid credentials",
-          });
-        });
+      const body = {
+        emailAddress: emailInput.value,
+        password: passwordInput.value,
+      };
+      const url = "http://localhost:8080/auth/login";
+      http.sendRequest(
+        "POST",
+        body,
+        url,
+        false,
+        {
+          showMessage: true,
+          loading: "Validating Credentials! Please wait",
+          success: `Welcome User!`,
+          error: "Invalid credentials!",
+        },
+        saveLoginDetails
+      );
     }
   };
 
   return (
     <Card>
       <form onSubmit={loginFormHandler}>
-        <div
-          className={`${styles.control} ${
-            emailInput.hasError ? styles.invalid : ""
-          }`}
-        >
-          <label htmlFor="email">Email Address</label>
-
-          <input
-            type="email"
-            id="email"
-            value={emailInput.value}
-            onChange={emailInput.inputChangeHandler}
-            onBlur={emailInput.inputOnBlurHandler}
-            autoComplete="false"
-          />
-          {emailInput.hasError && (
-            <p className={styles["error-text"]}>Enter a valid email adddress</p>
-          )}
-        </div>
-        <div
-          className={`${styles.control} ${
-            passwordInput.hasError ? styles.invalid : ""
-          }`}
-        >
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={passwordInput.value}
-            onChange={passwordInput.inputChangeHandler}
-            onBlur={passwordInput.inputOnBlurHandler}
-            autoComplete="false"
-          />
-          {passwordInput.hasError && (
-            <p className={styles["error-text"]}>
-              Password length should be atleast 6 characters
-            </p>
-          )}
-        </div>
-        <button type="submit" disabled={!formIsValid}>
-          Sign in
-        </button>
+        <Input
+          type="email"
+          value={emailInput.value}
+          onChange={emailInput.inputChangeHandler}
+          onBlur={emailInput.inputOnBlurHandler}
+          label="Email Address"
+          hasError={emailInput.hasError}
+          error="Enter a valid email address"
+          autoComplete="true"
+        />
+        <Input
+          type="password"
+          value={passwordInput.value}
+          onChange={passwordInput.inputChangeHandler}
+          onBlur={passwordInput.inputOnBlurHandler}
+          hasError={passwordInput.hasError}
+          label="Password"
+          error="Password length should be atleast 6 characters"
+          autoComplete="true"
+        />
+        <Button type="submit" title="Sign in" disabled={!formIsValid} />
       </form>
     </Card>
   );

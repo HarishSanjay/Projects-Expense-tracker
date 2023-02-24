@@ -26,30 +26,13 @@
   background-color: #d4fde9;
 }
 
-button {
-  font: inherit;
-  background-color: #04aa6d;
-  color: white;
-  border: 1px solid #04aa6d;
-  padding: 0.4rem 1.2rem;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 0.5rem 0;
-}
-
-button:hover,
-button:active {
-  background-color: #04593a;
-  border-color: #04593a;
-}
-
-button:disabled,
-button:disabled:hover,
-button:disabled:active {
-  background-color: #ccc;
-  color: #292929;
-  border-color: #ccc;
-  cursor: not-allowed;
+input:disabled,
+input:disabled:hover,
+input:disabled:active {
+  background-color: #ccc !important;
+  color: #292929 !important;
+  border-color: #ccc !important;
+  cursor: not-allowed !important;
 }
 
 .invalid input {

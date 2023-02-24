@@ -1,4 +1,58 @@
-.transactions{
-    width: 90%;
-    margin:  1rem auto;
+.transactions {
+  width: 90%;
+  margin: 1rem auto;
+}
+
+.table {
+  width: 100%;
+  border: 2px solid navy;
+  font-size: inherit;
+  border-collapse: collapse;
+}
+
+.transactionItem {
+  background-color: lightpink;
+}
+.table td {
+  padding: 0 0.4rem;
+  border: 1px solid navy;
+}
+.tHead th {
+  padding: 0.4rem;
+  border: 1px solid navy;
+}
+.tHead {
+  text-align: left;
+}
+
+.income {
+  background-color: #8ffad3;
+}
+
+.editButton,
+.deleteButton {
+  outline: 1px soild black;
+  border: 1px solid black;
+  color: black;
+  margin: 0.2rem 0.4rem;
+  padding: 5px 12px;
+}
+
+.editButton {
+  background-color: lightyellow;
+}
+
+.deleteButton {
+  background-color: red;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: black;
+  color: lightyellow;
+}
+
+.deleteButton:hover {
+  background-color: white;
+  color: red;
 }

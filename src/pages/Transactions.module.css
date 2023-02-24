@@ -1,10 +1,9 @@
-.tracker
-{
-    box-shadow: 0 0 2px 2px 5px rgba(0, 0, 0, 0.4);
-    padding: 0.5rem;
+.tracker {
+  box-shadow: 0 0 2px 2px 5px rgba(0, 0, 0, 0.4);
+  padding: 0.5rem;
 }
 
-.cashFlow
-{
-    width: 50%;
+.cashFlow {
+  display: flex;
+  align-items: center;
 }

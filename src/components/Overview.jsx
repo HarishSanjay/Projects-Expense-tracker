@@ -38,7 +38,6 @@ const Overview = (props) => {
   const [isInit, setIsInit] = useState(true);
   const [selectedMonth, setSelectedMonth] = useState(months[month]);
   const [selectedYear, setSelectedYear] = useState(year);
-  console.log({ isInit });
 
   if (isInit) {
     const startDate = getStartingDate(months[month], year);
@@ -69,7 +68,6 @@ const Overview = (props) => {
     [props, selectedMonth]
   );
 
-  console.log("Overview render");
   return (
     <div className={styles.overview}>
       <h2>

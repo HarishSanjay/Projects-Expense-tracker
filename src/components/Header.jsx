@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import authContext from "../context-store/auth-store";
 import styles from "./Header.module.css";
+import Button from "../ui/Button";
 import { NavLink, useHistory } from "react-router-dom";
 
 const Header = () => {
@@ -37,16 +38,7 @@ const Header = () => {
             Transactions
           </NavLink>
         )}
-        {isLoggedIn && (
-          <NavLink activeClassName={styles.active} to="/profile">
-            Profile
-          </NavLink>
-        )}
-        {isLoggedIn && (
-          <button className={styles.logout} onClick={logoutHandler}>
-            Logout
-          </button>
-        )}
+        {isLoggedIn && <Button onClick={logoutHandler} title="Logout" />}
       </nav>
     </div>
   );

@@ -24,7 +24,7 @@ const retrieveToken = () => {
   const storageToken = localStorage.getItem("idToken");
   const expTime = localStorage.getItem("expirationTime");
   const storedUser = localStorage.getItem("user");
-  const user = storedUser!==undefined ? JSON.parse(storedUser) : null;
+  const user = storedUser !== undefined ? JSON.parse(storedUser) : null;
   if (!storageToken && !expTime) {
     return;
   }
