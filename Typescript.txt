@@ -1,0 +1,61 @@
+#Inheritance
+class Shape {
+  constructor(private _x: number, private _y: number) {}
+
+  getInfo(): string {
+    return `${this._x}, ${this._y}`;
+  }
+}
+
+class Circle extends Shape implements Calculate{
+  constructor( _x: number,  _y: number, private _radius: number) {
+    super(_x, _y);
+  }
+
+  calculateArea(): string {
+      return `Area: ${3.14*this._radius*this._radius}`;
+  }
+
+  getInfo(): string {
+    return super.getInfo() + `${this._radius}`;
+  }
+}
+
+
+#Interface
+interface Coach{
+    getDailyWorkout(): string;
+}
+
+class CricketCoach implements Coach{
+    getDailyWorkout(): string {
+        return `Bowl 20 balls per day`;
+    }
+}
+
+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
+
+let coach = new CricketCoach();
+console.log(coach.getDailyWorkout());
+
+
+#Abstract class
+export abstract class Calculate{
+    abstract calculateArea(): string;
+}
+
+
+Why React developers move towards Typescript?
+It is staticaly typed language along with compile time checking and IDE support.
+It increases the productivity of developers.
+
+React + Typescript
+1) npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+@types/react-redux
+ (OR) npx create-react-app NAME --template typescript 
+
+2) Create tsconfig.json file using command: tsc --init
+
+3) Rename all the react files with extenstion .tsx
+
+3) Upate the root const of index file Root.getElementById("root") as HTMLElement)
